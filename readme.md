@@ -100,6 +100,7 @@ Content-Type: application/json
 {
   "name": "Mayank",
   "email": "mayank@gmail.com"
+  "mobile": "1234567890"
 }
 ```
 ### 3. **Delete User**
