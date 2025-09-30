@@ -1,5 +1,5 @@
 {
-  "name": "testing",
+  "name": "usermanagement",
   "version": "1.0.0",
   "description": "Node.js + Express + MongoDB REST API project",
   "type": "module",

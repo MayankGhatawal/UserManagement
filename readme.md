@@ -56,8 +56,8 @@ The API provides the following endpoints for the `User` resource:
 
 ### 1. **Clone the repository**
 ```bash
-git clone <repository-url>
-cd <file-name>
+git clone https://github.com/MayankGhatawal/UserManagement.git
+cd UserManagement-master
 ```
 
 ### 2. **Install dependencies**
