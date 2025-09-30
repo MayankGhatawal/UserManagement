@@ -14,7 +14,16 @@ const userSchema = new mongoose.Schema(
         "Please fill a valid email address"
       ]
     },
-    mobile: { type: String, required: true, unique: true, trim: true },
+    mobile: {
+      type: String,
+      required: true,
+      unique: true,
+      trim: true,
+      match: [
+        /^[0-9]{10}$/,
+        "Mobile number must be exactly 10 digits"
+      ]
+    },
   },
   { timestamps: true }
 );
