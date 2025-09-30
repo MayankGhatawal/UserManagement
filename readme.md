@@ -55,7 +55,7 @@ npm install
 ### 3. **Configure environment variables**
 Create a `.env` file in the root directory:
 ```bash
-MONGO_URI=mongodb://localhost:27017/myDatabase
+MONGODB_URI=mongodb://localhost:27017/myDatabase
 PORT=8000
 ```
 
