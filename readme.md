@@ -7,19 +7,6 @@ This project includes email and mobile validation, proper error handling, and fo
 
 ## 🚀 Features
 
-- Create a new user with `name`, `email`, and `mobile`
-- Get all users
-- Get a single user by ID
-- Update a user by ID
-- Delete a user by ID
-- Email format validation
-- Mobile uniqueness validation
-- Uses **timestamps** for `createdAt` and `updatedAt`
-
----
-
-## 🚀 Features
-
 The API provides the following endpoints for the `User` resource:
 
 | Method | Endpoint        | Description                        |
@@ -68,7 +55,7 @@ npm install
 ### 3. **Configure environment variables**
 Create a `.env` file in the root directory:
 ```bash
-MONGO_URI=mongodb://localhost:27017/myDatabase
+MONGODB_URI=mongodb://localhost:27017/myDatabase
 PORT=8000
 ```
 
