@@ -1,5 +1,8 @@
 import User from "../models/userModel.js";
 import jwt from "jsonwebtoken";
+import sharp from "sharp";
+import path from "path";
+import fs from "fs";
 
 export const registerUser = async (req, res) => {
   try {
@@ -13,10 +16,29 @@ export const registerUser = async (req, res) => {
     if (existingUser) {
       return res.status(400).json({ message: "User already exists" });
     }
-     const profilePic = req.file ? req.file.filename : null;
+
+    let profilePic = null;
+    if (req.file) {
+      const uploadPath = path.join("public", "uploads");
+      if (!fs.existsSync(uploadPath)) {
+        fs.mkdirSync(uploadPath, { recursive: true });
+      }
+
+      const filename = Date.now() + ".jpg";
+      const filepath = path.join(uploadPath, filename);
+
+      // Compress & save with sharp
+      await sharp(req.file.buffer)
+        .resize(800) // max width 800px
+        .jpeg({ quality: 70 }) // compress to 70%
+        .toFile(filepath);
+
+      profilePic = filename;
+    }
 
     const newUser = new User({ name, email, password, mobile, profilePic });
     await newUser.save();
+
     return res.status(201).json({ message: "User registered successfully" });
   } catch (error) {
     return res.status(500).json({ message: error.message });
