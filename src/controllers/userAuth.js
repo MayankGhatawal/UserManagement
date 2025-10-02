@@ -4,16 +4,18 @@ import jwt from "jsonwebtoken";
 export const registerUser = async (req, res) => {
   try {
     const { name, email, password, mobile } = req.body;
-    if (!name || !email || !password || !mobile) {
-      return res.status(400).json({ message: "All fields are required" });
-    }
+    if (!name) return res.status(400).json({ message: "Name is required" });
+    if (!email) return res.status(400).json({ message: "Email is required" });
+    if (!password) return res.status(400).json({ message: "Password is required" });
+    if (!mobile) return res.status(400).json({ message: "Mobile is required" });
 
     const existingUser = await User.findOne({ email });
     if (existingUser) {
       return res.status(400).json({ message: "User already exists" });
     }
+     const profilePic = req.file ? req.file.filename : null;
 
-    const newUser = new User({ name, email, password, mobile });
+    const newUser = new User({ name, email, password, mobile, profilePic });
     await newUser.save();
     return res.status(201).json({ message: "User registered successfully" });
   } catch (error) {
@@ -24,16 +26,15 @@ export const registerUser = async (req, res) => {
 export const loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
-    if (!email || !password) {
-      return res.status(400).json({ message: "All fields are required" });
-    }
+    if (!email) return res.status(400).json({ message: "Email is required" });
+    if (!password) return res.status(400).json({ message: "Password is required" });
 
     const user = await User.findOne({ email });
     if (!user) {
       return res.status(400).json({ message: "Invalid credentials" });
     }
 
-    const isMatch = await user.matchPassword(password);
+    const isMatch = await user.isMatchPassword(password);
     if (!isMatch) {
       return res.status(400).json({ message: "Invalid credentials" });
     }
@@ -41,7 +42,7 @@ export const loginUser = async (req, res) => {
     const token = jwt.sign(
       { id: user._id }, // payload
       process.env.JWT_SECRET || "supersecret", // secret
-      { expiresIn: "1h" } // validity
+      { expiresIn: "1d"}
     );
 
     res.cookie("token", token, { httpOnly: true, secure: process.env.NODE_ENV === "production" });
