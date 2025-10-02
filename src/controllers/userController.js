@@ -6,12 +6,13 @@ export const createUser = async (req, res) => {
     const { name, email, mobile } = req.body;
     if (!name || !email || !mobile)
       return res.status(400).json({ message: "All fields are required" });
-
     const user = await UserCollection.create({ name, email, mobile });
     res.status(201).json(user);
   } catch (err) {
     if (err.code === 11000)
-      return res.status(400).json({ message: "Email or Mobile already exists" });
+      return res
+        .status(400)
+        .json({ message: "Email or Mobile already exists" });
     res.status(500).json({ message: err.message });
   }
 };
@@ -51,7 +52,9 @@ export const updateUser = async (req, res) => {
     res.json(updatedUser);
   } catch (err) {
     if (err.code === 11000)
-      return res.status(400).json({ message: "Email or Mobile already exists" });
+      return res
+        .status(400)
+        .json({ message: "Email or Mobile already exists" });
     res.status(400).json({ message: err.message });
   }
 };
