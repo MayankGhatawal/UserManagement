@@ -1,4 +1,4 @@
-import User from "../model/User.js";
+import UserCollection from "../models/UserCollectionModel.js";
 
 // Create User
 export const createUser = async (req, res) => {
@@ -7,7 +7,7 @@ export const createUser = async (req, res) => {
     if (!name || !email || !mobile)
       return res.status(400).json({ message: "All fields are required" });
 
-    const user = await User.create({ name, email, mobile });
+    const user = await UserCollection.create({ name, email, mobile });
     res.status(201).json(user);
   } catch (err) {
     if (err.code === 11000)
@@ -19,7 +19,7 @@ export const createUser = async (req, res) => {
 // Get all Users
 export const getUsers = async (_, res) => {
   try {
-    const users = await User.find().sort({ createdAt: -1 });
+    const users = await UserCollection.find().sort({ createdAt: -1 });
     res.json(users);
   } catch (err) {
     res.status(500).json({ message: err.message });
@@ -29,7 +29,7 @@ export const getUsers = async (_, res) => {
 // Get User by ID
 export const getUser = async (req, res) => {
   try {
-    const user = await User.findById(req.params.id);
+    const user = await UserCollection.findById(req.params.id);
     if (!user) return res.status(404).json({ message: "User not found" });
     res.json(user);
   } catch {
@@ -41,7 +41,7 @@ export const getUser = async (req, res) => {
 export const updateUser = async (req, res) => {
   try {
     const { name, email, mobile } = req.body;
-    const updatedUser = await User.findByIdAndUpdate(
+    const updatedUser = await UserCollection.findByIdAndUpdate(
       req.params.id,
       { name, email, mobile },
       { new: true, runValidators: true }
@@ -59,7 +59,7 @@ export const updateUser = async (req, res) => {
 // Delete User by ID
 export const deleteUser = async (req, res) => {
   try {
-    const deletedUser = await User.findByIdAndDelete(req.params.id);
+    const deletedUser = await UserCollection.findByIdAndDelete(req.params.id);
     if (!deletedUser)
       return res.status(404).json({ message: "User not found" });
     res.json({ message: "User deleted successfully" });
