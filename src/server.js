@@ -17,9 +17,9 @@ connectDB();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-const uploadPath = path.join(__dirname, "uploads");
+const uploadPath = path.join(__dirname, "../public/uploads");
 if (!fs.existsSync(uploadPath)) {
-  fs.mkdirSync(uploadPath);
+  fs.mkdirSync(uploadPath, { recursive: true });
 }
 
 app.use("/uploads", express.static(uploadPath));
